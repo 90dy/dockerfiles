@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  ccxt:
+    image: 90dy/ccxt-rest:latest
+    build:
+      context: .
+      dockerfile: ccxt-rest.Dockerfile
+      target: ccxt-rest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - "./ccxt-rest:/root"
+
+  caddy:
+    image: 90dy/caddy:latest
+    build:
+      context: .
+      dockerfile: caddy.Dockerfile
+      target: caddy
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data/caddy
+      - ./caddy/config:/config/caddy
