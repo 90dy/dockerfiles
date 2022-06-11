@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  caddy:
+  caddy: &caddy
     image: 90dy/caddy:latest
     build:
       context: .
@@ -13,8 +13,14 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./caddy/data:/data/caddy
       - ./caddy/config:/config/caddy
+  caddy_amd64:
+    <<: *caddy
+    platform: linux/amd64
+  caddy_arm64-v8:
+    <<: *caddy
+    platform: linux/arm64/v8
 
-  ccxt-app:
+  ccxt-app: &ccxt-app
     image: 90dy/ccxt-app:latest
     build:
       context: .
@@ -25,4 +31,10 @@ services:
       - ./ccxt-app/data:./data
     ports:
       - "127.0.0.1:3000:3000"
+  ccxt-app_amd64:
+    <<: *ccxt-app
+    platform: linux/amd64
+  ccxt-app_arm64-v8:
+    <<: *ccxt-app
+    platform: linux/arm64/v8
 
