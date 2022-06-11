@@ -13,3 +13,16 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./caddy/data:/data/caddy
       - ./caddy/config:/config/caddy
+
+  ccxt-app:
+    image: 90dy/ccxt-app:latest
+    build:
+      context: .
+      dockerfile: ccxt-app.Dockerfile
+      args:
+        SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
+    volumes:
+      - ./ccxt-app/data:./data
+    ports:
+      - "127.0.0.1:3000:3000"
+

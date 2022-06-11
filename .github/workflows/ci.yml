@@ -35,6 +35,8 @@ jobs:
       -
         name: Build and push
         uses: docker/bake-action@master
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         with:
           pull: true
           push: true
