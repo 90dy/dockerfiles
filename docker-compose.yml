@@ -7,34 +7,30 @@ services:
       context: .
       dockerfile: caddy.Dockerfile
       target: caddy
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
     network_mode: "host"
     restart: unless-stopped
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./caddy/data:/data/caddy
       - ./caddy/config:/config/caddy
-  caddy_amd64:
-    <<: *caddy
-    platform: linux/amd64
-  caddy_arm64-v8:
-    <<: *caddy
-    platform: linux/arm64/v8
 
-  ccxt-app: &ccxt-app
-    image: 90dy/ccxt-app:latest
+  ccxt_app: &ccxt_app
+    image: 90dy/ccxt_app:latest
     build:
       context: .
-      dockerfile: ccxt-app.Dockerfile
+      dockerfile: ccxt_app.Dockerfile
       args:
         SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
     volumes:
-      - ./ccxt-app/data:./data
+      - ./ccxt_app/data:./data
     ports:
       - "127.0.0.1:3000:3000"
-  ccxt-app_amd64:
-    <<: *ccxt-app
-    platform: linux/amd64
-  ccxt-app_arm64-v8:
-    <<: *ccxt-app
-    platform: linux/arm64/v8
 
