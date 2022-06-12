@@ -25,5 +25,5 @@ COPY --from=ccxt-app-cloner ccxt-app /usr/src/app
 RUN pnpm install --frozen-lockfile
 RUN pnpm run build
 
-CMD pnpm blitz prisma migrate deploy && pnpm run start -p ${PORT}
+CMD pnpm blitz prisma migrate deploy && pnpm run start -p 3000
 
